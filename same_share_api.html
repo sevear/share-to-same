@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>same 分享iOS SDK</title>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax:{inlineMath:[['$$$','$$$']]}});</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<h2>same 分享iOS SDK</h2>
+
+<h3>流程</h3>
+
+<p>在分享之前务必请注册好App Key，一般在didFinishLaunchingWithOptions里面调用registerApp，跟WXApi很像</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+    [SameApi registerApp:@"same01cec4e07728524f02d8f43dc75443cc"];
+    return YES;
+}
+</code></pre>
+
+<p>需要分享时，例如乐动力要分享图片+数值的打卡到same，首先需要创建一个SameShareMediaObject，有以下几类SameShareMediaObject:</p>
+
+<ul>
+<li>SameShareImageObject - 图文帖子</li>
+<li>SameShareVideoObject - 视频帖子</li>
+<li>SameShareCheckinObject - 打卡帖子</li>
+</ul>
+
+
+<p>然后再把SameShareMediaObject塞进一个SameAppShareDataPackage里面，最后调用[SameApi sendDataToApplicationWithScheme:dataPackage:completionHandler]方法就可以唤起same，弹出分享的对话框。</p>
+
+<p><img src="https://git.ohsame.com/uploads/sevear/same-ios/c95f97cedf/same-screenshot.png" alt="same-screenshot" /></p>
+
+<h3>same频道里唤起相关的App</h3>
+
+<p>在一个频道里面，我们会根据 App key 建立相应的唤起其他App的界面，主要是出现点击底部发布内容的时候，会根据第三方App提供的scheme和download url去唤起第三方App或者去下载第三方App</p>
+
+<p><img src="https://git.ohsame.com/uploads/sevear/same-ios/54100e4d10/same-screenshot2.png" alt="same-screenshot2" /></p>
+
+<h3>分享打卡 SameShareCheckinObject</h3>
+
+<p>比如分享打卡数据到一个图片+数字的打卡频道，在registerApp后，在需要分享的地方加入以下代码：</p>
+
+<pre><code>SameShareCheckinObject *checkinObj = [[SameShareCheckinObject alloc] init];
+checkinObj.image = [UIImage imageNamed:@"same_office.jpg"]; //图片数据
+checkinObj.value1 = @"3.2"; //跑步的公里数值
+checkinObj.mediaDescription = @"今天跑了3.2公里哦"; //分享打卡的时候一定要写这个，用来显示在对话框里面告知用户是什么内容，不会直接出现在最后帖子内容里
+SameAppShareDataPackage *package = [SameAppShareDataPackage dataPackageForCurrentApplicationWithMediaObj:checkinObj];
+//1159840 分享到的频道ID
+[SameApi sendDataToApplicationWithScheme:1159840 dataPackage:package completionHandler:nil]; 
+</code></pre>
+</body>
+</html>
