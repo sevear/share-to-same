@@ -3,7 +3,7 @@
 
 向 fye@same.com 或者 sevear@same.com 发邮件申请 APP Key，邮件需要附带分享到的：
 
-1. 频道名、频道ID
+1. 频道名，最好有个频道二维码的图片
 2. 需要分享什么类型的内容
 3. 第三方 App 的 scheme
 4. 第三方 App 的下载地址和ICON(ICON尺寸不低于512*512)
